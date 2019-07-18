@@ -1,3 +1,4 @@
 /.idea
 /bamboo-aws-assume-role.iml
 /target
+.DS_Store

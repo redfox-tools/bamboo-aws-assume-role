@@ -1,4 +1,4 @@
-# AWS Role Assumption plugin for Bamboo
+# AWS assume role plugin for Bamboo
 
 Automatically assume role and inject AWS credentials to all your tasks in given job.
 
@@ -18,3 +18,5 @@ Additionally to simplify integration with other tools there is a combined variab
 
 That variable can be useful in custom tasks as an environment variable configuration.
 Unfortunately it's not possible to inject AWS_* variables directly.  
+
+## Screenshots
