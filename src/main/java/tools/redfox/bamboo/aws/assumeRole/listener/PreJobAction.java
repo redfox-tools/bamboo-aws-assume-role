@@ -46,8 +46,15 @@ public class PreJobAction implements com.atlassian.bamboo.chains.plugins.PreJobA
         }
 
         try {
+            AWSCredentialsProvider credentials = getCredentials(roleCapability);
+
+            if (credentials == null) {
+                logger.error("Failed to obtain credentials based on the name");
+                return;
+            }
+
             AWSSecurityTokenService stsClient = AWSSecurityTokenServiceClientBuilder.standard()
-                    .withCredentials(getCredentials(roleCapability))
+                    .withCredentials(credentials)
                     .build();
 
             AssumeRoleRequest roleRequest = new AssumeRoleRequest()
@@ -99,7 +106,11 @@ public class PreJobAction implements com.atlassian.bamboo.chains.plugins.PreJobA
         if (parts[0].equals("-")) {
             return new EC2ContainerCredentialsProviderWrapper();
         }
-        @NotNull CredentialsData credentials = credentialsAccessor.getCredentialsByName(parts[0]);
+        CredentialsData credentials = credentialsAccessor.getCredentialsByName(parts[0]);
+
+        if (credentials == null) {
+            return null;
+        }
 
         return new AWSStaticCredentialsProvider(
                 new BasicAWSCredentials(
