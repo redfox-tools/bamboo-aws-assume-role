@@ -21,13 +21,13 @@ Unfortunately it's not possible to inject AWS_* variables directly.
 
 ## Screenshots
 **Custom capability with role definition**
-![Image 1](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/screenshots/img_00.png)
+![Image 1](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/aws-role/screenshots/img_00.png)
 
 **Check agents with AWS capabilities**
-![Image 2](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/screenshots/img_01.png)
+![Image 2](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/aws-role/screenshots/img_01.png)
 
 **Define role per Job**
-![Image 3](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/screenshots/img_03.png)
+![Image 3](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/aws-role/screenshots/img_03.png)
 
 **Bamboo output filtering for secrets**
-![Image 4](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/screenshots/img_04.png)
+![Image 4](https://raw.githubusercontent.com/redfox-tools/bamboo-aws-assume-role/master/src/main/resources/images/aws-role/screenshots/img_04.png)

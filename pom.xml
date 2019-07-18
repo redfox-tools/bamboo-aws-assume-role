@@ -13,8 +13,8 @@
         <url>http://www.redfox.tools/</url>
     </organization>
 
-    <name>bamboo-aws-assume-role</name>
-    <description>This is the tools.redfox.bamboo:bamboo-aws-assume-role plugin for Atlassian Bamboo.</description>
+    <name>Assume AWS role plugin</name>
+    <description>Use AWS security token service to get temporary role credentials for a job.</description>
     <packaging>atlassian-plugin</packaging>
 
     <properties>

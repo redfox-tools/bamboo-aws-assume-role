@@ -99,7 +99,8 @@ public class PreJobAction implements com.atlassian.bamboo.chains.plugins.PreJobA
         if (parts[0].equals("-")) {
             return new EC2ContainerCredentialsProviderWrapper();
         }
-        @Nullable CredentialsData credentials = credentialsAccessor.getCredentialsByName(parts[0]);
+        @NotNull CredentialsData credentials = credentialsAccessor.getCredentialsByName(parts[0]);
+
         return new AWSStaticCredentialsProvider(
                 new BasicAWSCredentials(
                         credentials.getConfiguration().get("accessKey"),
