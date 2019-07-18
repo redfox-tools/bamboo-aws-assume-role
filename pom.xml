@@ -150,6 +150,34 @@
             <version>4.1.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.atlassian.bamboo</groupId>
+            <artifactId>bamboo-specs</artifactId>
+            <version>6.9.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.aws</groupId>
+            <artifactId>atlassian-aws-bootstrap</artifactId>
+            <version>1.0.171</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sts</artifactId>
+            <version>1.11.394</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-core</artifactId>
+            <version>1.11.394</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.0-jre</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -178,6 +206,9 @@
                         <Import-Package>
                             org.springframework.osgi.*;resolution:="optional",
                             org.eclipse.gemini.blueprint.*;resolution:="optional",
+                            org.apache.avalon.framework.logger;resolution:="optional",
+                            org.joda.convert;resolution:="optional",
+                            org.springframework.test.context.junit4;resolution:="optional",
                             *
                         </Import-Package>
 

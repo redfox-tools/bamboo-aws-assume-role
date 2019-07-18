@@ -1,3 +1,3 @@
-[@ww.select name='awsCredentialsName' labelKey="tools.redfox.bamboo.aws.assumeRole.credentials.label" descriptionKey="tools.redfox.bamboo.aws.assumeRole.credentials.description" list=credentials /]
-[@ww.textfield name="awsRoleARN" labelKey="tools.redfox.bamboo.aws.assumeRole.role.label" descriptionKey="tools.redfox.bamboo.aws.assumeRole.role.description" cssClass="long-field" /]
+[@ww.select name='tools.redfox.aws.role.credentials' labelKey="tools.redfox.aws.role.credentials.label" descriptionKey="tools.redfox.aws.role.credentials.description" list=credentials /]
+[@ww.textfield name="tools.redfox.aws.role.arn" labelKey="tools.redfox.aws.role.arn.label" descriptionKey="tools.redfox.aws.role.arn.description" cssClass="long-field" /]
 

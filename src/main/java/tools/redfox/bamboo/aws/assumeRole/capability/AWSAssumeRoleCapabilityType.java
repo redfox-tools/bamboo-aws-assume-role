@@ -10,10 +10,7 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -49,17 +46,17 @@ public class AWSAssumeRoleCapabilityType extends AbstractCapabilityTypeModule im
     @NotNull
     @Override
     public Capability getCapability(@NotNull Map<String, String[]> map) {
-        Matcher matcher = arnPattern.matcher(map.get("awsRoleARN")[0]);
+        Matcher matcher = arnPattern.matcher(map.get("tools.redfox.aws.role.arn")[0]);
         matcher.find();
         String key = MessageFormat.format(
-                "system.aws.role.{0}.{1}.{2}",
-                map.get("awsCredentialsName")[0],
+                "tools.redfox.aws.role.capability.{0}.{1}.{2}",
+                map.get("tools.redfox.aws.role.credentials")[0].isEmpty() ? "-" : map.get("tools.redfox.aws.role.credentials")[0],
                 matcher.group(1),
                 matcher.group(2)
         );
         return new CapabilityImpl(
                 key,
-                map.get("awsRoleARN")[0]
+                map.get("tools.redfox.aws.role.arn")[0]
         );
     }
 
@@ -70,8 +67,8 @@ public class AWSAssumeRoleCapabilityType extends AbstractCapabilityTypeModule im
 
 
     public static String getFormattedLabel(String s) {
-        String[] nameParts = s.replace("system.aws.role.", "").split("\\.");
-        if (nameParts.length == 0) {
+        String[] nameParts = s.replace("tools.redfox.aws.role.capability.", "").split("\\.");
+        if (nameParts.length == 1) {
             return "{SDK AutoDetection}";
         } else if (nameParts.length < 2) {
             return s;
@@ -93,10 +90,12 @@ public class AWSAssumeRoleCapabilityType extends AbstractCapabilityTypeModule im
         HashMap<String, Object> context = new HashMap<String, Object>();
         context.put("capabilityType", this);
 
-        Set<String> credentials = StreamSupport.stream(credentialsAccessor.getAllCredentials().spliterator(), false)
+        Set<String> credentials = new LinkedHashSet<>();
+        credentials.add("");
+        credentials.addAll(StreamSupport.stream(credentialsAccessor.getAllCredentials().spliterator(), false)
                 .filter(c -> c.getPluginKey().endsWith("awsCredentials"))
                 .map(CredentialsData::getName)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet()));
 
         context.put("credentials", credentials);
         return this.templateRenderer.render(this.editTemplate, context);

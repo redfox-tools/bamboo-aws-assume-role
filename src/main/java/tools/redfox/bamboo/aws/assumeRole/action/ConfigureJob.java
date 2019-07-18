@@ -21,11 +21,13 @@ import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.plugin.web.WebInterfaceManager;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts2.ServletActionContext;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tools.redfox.bamboo.aws.assumeRole.capability.AWSAssumeRoleCapabilityType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -66,32 +68,18 @@ public class ConfigureJob extends BuildActionSupport implements PlanEditSecurity
         @Nullable Plan plan = planManager.getPlanByKey(getPlanKey());
         HttpServletRequest request = ServletActionContext.getRequest();
         Map<String, Object> context = ServletActionContext.getValueStack(request).getContext();
-        Pattern name = Pattern.compile("system\\.aws\\.role\\.\\w+.\\w+");
+        Pattern name = Pattern.compile("tools.redfox.aws.role.capability.\\w+.\\w+.\\w+");
 
-        VariableDefinition variable = variableDefinitionManager.getPlanVariables(plan)
-                .stream()
-                .filter(v -> v.getKey().equals("aws.role"))
-                .findFirst()
-                .orElse(new VariableDefinitionImpl());
+        @NotNull List<VariableDefinition> variables = variableDefinitionManager.getPlanVariables(plan);
 
         String awsAssumedRole = ObjectUtils.firstNonNull(
-                request.getParameter("awsAssumedRole"),
-                variable.getValue(),
+                request.getParameter("tools.redfox.aws.role"),
+                getVariableValue(variables, "aws.role"),
                 ""
         );
 
-        Map<String, String> awsRoles = new HashMap<>();
-        awsRoles.put("", "");
-        capabilitySetManager
-                .findUniqueCapabilityKeys()
-                .stream()
-                .filter(c -> name.matcher(c).find())
-                .forEach(c -> {
-                    awsRoles.put(c, AWSAssumeRoleCapabilityType.getFormattedLabel(c));
-                });
-
-        context.put("awsRoles", awsRoles);
-        context.put("awsAssumedRole", awsAssumedRole);
+        context.put("awsRoles", getAWSRoles(name));
+        context.put("tools.redfox.aws.role", awsAssumedRole);
         context.put("saved", request.getParameterMap().containsKey("saved"));
 
         if (request.getMethod().equals("POST")) {
@@ -105,10 +93,33 @@ public class ConfigureJob extends BuildActionSupport implements PlanEditSecurity
                         new VariableDefinitionImpl("aws.role", awsAssumedRole, plan, VariableType.JOB)
                 );
             }
+
+            planManager.savePlan(plan);
             return "reload";
         }
 
         return super.execute();
     }
 
+    @NotNull
+    private Map<String, String> getAWSRoles(Pattern name) {
+        Map<String, String> awsRoles = new HashMap<>();
+        awsRoles.put("", "");
+        capabilitySetManager
+                .findUniqueCapabilityKeys()
+                .stream()
+                .filter(c -> name.matcher(c).find())
+                .forEach(c -> {
+                    awsRoles.put(c, AWSAssumeRoleCapabilityType.getFormattedLabel(c));
+                });
+        return awsRoles;
+    }
+
+    private String getVariableValue(List<VariableDefinition> variables, String name) {
+        return variables.stream()
+                .filter(v -> v.getKey().equals(name))
+                .findFirst()
+                .orElse(new VariableDefinitionImpl())
+                .getValue();
+    }
 }

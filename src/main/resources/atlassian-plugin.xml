@@ -10,18 +10,20 @@
     <!-- add our i18n resource -->
     <resource type="i18n" name="i18n" location="bamboo-aws-assume-role"/>
 
-    <capabilityType class="tools.redfox.bamboo.aws.assumeRole.capability.AWSAssumeRoleCapabilityType" key="system.aws.role" name="AWS assume role" sortOrder="150">
+    <capabilityType key="tools.redfox.aws.role.capability" name="AWS assume role" class="tools.redfox.bamboo.aws.assumeRole.capability.AWSAssumeRoleCapabilityType" sortOrder="150">
         <description>The aws capability type</description>
         <resource location="templates/editCapability.ftl" name="edit" type="freemarker"/>
     </capabilityType>
 
-    <web-item key="awsRoleAssumption_${buildKey}" name="awsAssumeRole" section="planConfiguration.subMenu/configuration" weight="20">
-        <label key="tools.redfox.bamboo.aws.assumeRole.tab.label"/>
+    <preJobAction key="tools.redfox.aws.role.action.preJob" class="tools.redfox.bamboo.aws.assumeRole.listener.PreJobAction" />
+
+    <web-item key="tools.redfox.aws.role.link_${buildKey}" name="awsAssumeRole" section="planConfiguration.subMenu/configuration" weight="20">
+        <label key="tools.redfox.aws.role.plan.job.tab.label"/>
         <link linkId="awsRoleAssumption">/build/admin/edit/awsAssumeRole.action?buildKey=${buildKey}</link>
     </web-item>
 
-    <xwork key="awsRoleSettings" name="AWS Role Configuration" >
-        <package extends="buildAdmin" name="awsSettings" namespace="/build/admin/edit">
+    <xwork key="tools.redfox.aws.role.work.settings" name="AWS Role Configuration" >
+        <package extends="buildAdmin" name="AWS Job Role" namespace="/build/admin/edit">
             <default-interceptor-ref name="buildConfigEditStack"/>
             <action class="tools.redfox.bamboo.aws.assumeRole.action.ConfigureJob" name="awsAssumeRole">
                 <result name="input" type="freemarker">/templates/settings.ftl</result>
