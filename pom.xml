@@ -165,12 +165,12 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-sts</artifactId>
-            <version>1.11.394</version>
+            <version>1.12.76</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-core</artifactId>
-            <version>1.11.394</version>
+            <version>1.12.76</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
