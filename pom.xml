@@ -153,7 +153,7 @@
         <dependency>
             <groupId>com.atlassian.bamboo</groupId>
             <artifactId>bamboo-specs</artifactId>
-            <version>6.9.1</version>
+            <version>8.0.12</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -170,7 +170,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-core</artifactId>
-            <version>1.11.394</version>
+            <version>1.12.589</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
